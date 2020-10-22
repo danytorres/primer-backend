@@ -10,13 +10,15 @@ import sqlite3
 def insert(datos):
     conn = sqlite3.connect('datos.db')
     c = conn.cursor()
-    c.execute('INSERT INTO users VALUES (?, ?, ?)', datos)
+    sql = 'INSERT INTO users VALUES (?, ?, ?)'
+    c.execute(sql, datos)
     conn.commit()
     conn.close()
 
 def traerDatos():
     conn = sqlite3.connect('datos.db')
     c = conn.cursor()
-    res = [datos for datos in c.execute('SELECT * FROM users')]
+    sql = 'SELECT * FROM users'
+    res = [datos for datos in c.execute(sql)]
     conn.close()
     return res
