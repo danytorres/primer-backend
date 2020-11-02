@@ -1,24 +1,27 @@
-import sqlite3
+from pymongo import MongoClient
 
-#conn = sqlite3.connect('datos.db')
-#c = conn.cursor()
-#c.execute('''CREATE TABLE users (nombre text, correo text, distancia real)''')
-#c.execute("INSERT INTO users VALUES ('Daniel Torres','dtp_daniel@hotmail.com',10)")
-#conn.commit()
-#conn.close()
+MONGO_URI = 'mongodb://localhost'
+"""
+client = MongoClient(MONGO_URI)
 
+db = client['teststore']
+collection = db['correr']
+
+collection.insert_one({"name":"keyboard","price":120})
+"""
 def insert(datos):
-    conn = sqlite3.connect('datos.db')
-    c = conn.cursor()
-    sql = 'INSERT INTO users VALUES (?, ?, ?)'
-    c.execute(sql, datos)
-    conn.commit()
-    conn.close()
+    client = MongoClient(MONGO_URI)
+
+    db = client['usuarios']
+    collection = db['correr']
+
+    collection.insert_one(datos)
 
 def traerDatos():
-    conn = sqlite3.connect('datos.db')
-    c = conn.cursor()
-    sql = 'SELECT * FROM users'
-    res = [datos for datos in c.execute(sql)]
-    conn.close()
+    
+    client = MongoClient(MONGO_URI)
+
+    db = client['usuarios']
+    collection = db['correr']
+    res = [datos for datos in collection.find()]
     return res
